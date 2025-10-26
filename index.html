@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Job Disruption & Skilled Trades Intelligence Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .mission {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-left: 5px solid #667eea;
+            margin: 30px 40px;
+            border-radius: 8px;
+        }
+
+        .mission h2 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .mission p {
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .pillar {
+            background: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .pillar:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+        }
+
+        .pillar-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .pillar-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .pillar h3 {
+            color: #1e3c72;
+            font-size: 1.4em;
+        }
+
+        .pillar h4 {
+            color: #495057;
+            margin: 20px 0 10px 0;
+            font-size: 1.1em;
+        }
+
+        .query-list, .source-list {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        .query-list li, .source-list li {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+
+        .input-section {
+            background: #fff9e6;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .narrative-output {
+            background: #e8f5e9;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .narrative-output h4 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        .narrative-output .output-content {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            min-height: 100px;
+            font-size: 1em;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .guidelines {
+            background: #fff3cd;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        .guidelines h4 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .guidelines ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .tone-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .tone-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #dc3545;
+        }
+
+        .tone-item.good {
+            border-left-color: #28a745;
+        }
+
+        .tone-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 3px solid #667eea;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .btn, .input-section {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .tone-box {
+                grid-template-columns: 1fr;
+            }
+            .content, .header, .mission {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 ELITE KNOWLEDGE BROKER PROTOCOL</h1>
+            <p>AI Disruption & Skilled Trades Intelligence Brief</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.8;">Weekly Intelligence Dashboard</p>
+        </div>
+
+        <div class="mission">
+            <h2>Mission Statement</h2>
+            <p>Position yourself as the authoritative voice tracking the historic labor market inversion—where automation threatens credentialed office workers while physical trades become recession-proof premium careers. Deliver actionable intelligence before mainstream coverage catches up.</p>
+        </div>
+
+        <div class="content">
+            <!-- PILLAR 1 -->
+            <div class="pillar">
+                <div class="pillar-header">
+                    <div class="pillar-number">1</div>
+                    <h3>Enrollment Velocity Analysis</h3>
+                </div>
+                <p style="font-style: italic; color: #6c757d; margin-bottom: 20px;">Track the pace of the paradigm shift</p>
+                
+                <h4>Primary Search Queries:</h4>
+                <ul class="query-list">
+                    <li>"National Student Clearinghouse vocational enrollment data Q[current quarter] 2025-2026"</li>
+                    <li>"community college trade program enrollment growth rate [current month]"</li>
+                    <li>"apprenticeship registration statistics United States [year]"</li>
+                    <li>"four-year university enrollment decline [current academic year]"</li>
+                </ul>
+
+                <div class="input-section">
+                    <h4>📊 Data Collection</h4>
+                    <div class="form-group">
+                        <label>Latest Enrollment Statistics Found:</label>
+                        <textarea id="pillar1-data" placeholder="Paste key statistics, percentages, and sources here..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Key Insights/Trends:</label>
+                        <textarea id="pillar1-insights" placeholder="What patterns are emerging? Is the 11.7% acceleration sustaining or changing?"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PILLAR 2 -->
+            <div class="pillar">
+                <div class="pillar-header">
+                    <div class="pillar-number">2</div>
+                    <h3>Capital Deployment & Policy Architecture</h3>
+                </div>
+                <p style="font-style: italic; color: #6c757d; margin-bottom: 20px;">Follow the money, find the champions</p>
+                
+                <h4>Primary Search Queries:</h4>
+                <ul class="query-list">
+                    <li>"skilled trades infrastructure funding announced [current month] [year]"</li>
+                    <li>"bipartisan workforce development legislation [current quarter]"</li>
+                    <li>"Fortune 500 apprenticeship program launches [year]"</li>
+                    <li>"state tax incentives trade school tuition [year]"</li>
+                </ul>
+
+                <div class="input-section">
+                    <h4>💰 Data Collection</h4>
+                    <div class="form-group">
+                        <label>New Funding/Policy Announcements:</label>
+                        <textarea id="pillar2-data" placeholder="Document new initiatives, dollar amounts, and announcing organizations..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Key Players & Champions:</label>
+                        <textarea id="pillar2-insights" placeholder="Who is positioning themselves as thought leaders? Any potential allies or competitors?"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PILLAR 3 -->
+            <div class="pillar">
+                <div class="pillar-header">
+                    <div class="pillar-number">3</div>
+                    <h3>Job Destruction/Creation Asymmetry</h3>
+                </div>
+                <p style="font-style: italic; color: #6c757d; margin-bottom: 20px;">Quantify the threat differential</p>
+                
+                <h4>Primary Search Queries:</h4>
+                <ul class="query-list">
+                    <li>"AI job displacement forecast entry-level positions [current quarter]"</li>
+                    <li>"Claude/GPT-5/Gemini impact legal administrative jobs study"</li>
+                    <li>"Bureau of Labor Statistics skilled trades demand projection update [year]"</li>
+                    <li>"automation-resistant occupations research [year]"</li>
+                </ul>
+
+                <h4>Contrast Analysis Searches:</h4>
+                <ul class="query-list">
+                    <li>"paralegal job outlook vs. electrician demand [year]"</li>
+                    <li>"accounting clerk automation vs. HVAC technician shortage"</li>
+                    <li>"data entry job losses vs. welding certification ROI"</li>
+                </ul>
+
+                <div class="input-section">
+                    <h4>⚡ Data Collection</h4>
+                    <div class="form-group">
+                        <label>AI Displacement Data:</label>
+                        <textarea id="pillar3-displacement" placeholder="Which jobs are being automated? What are the forecasts and percentages?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Trades Demand Data:</label>
+                        <textarea id="pillar3-demand" placeholder="Which trades are seeing growth? Job openings? Wage increases?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Best Contrasts Identified:</label>
+                        <textarea id="pillar3-contrasts" placeholder="Example: Paralegal (X% decline, $Y debt) vs. Electrician (Z% growth, $W training cost)"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PILLAR 4 -->
+            <div class="pillar">
+                <div class="pillar-header">
+                    <div class="pillar-number">4</div>
+                    <h3>Economic Coercion Metrics</h3>
+                </div>
+                <p style="font-style: italic; color: #6c757d; margin-bottom: 20px;">Measure the financial squeeze driving decisions</p>
+                
+                <h4>Primary Search Queries:</h4>
+                <ul class="query-list">
+                    <li>"average student loan debt [current year] Federal Reserve data"</li>
+                    <li>"public university tuition growth rate [academic year]"</li>
+                    <li>"trade school average cost by certification type [year]"</li>
+                    <li>"college degree ROI decline study [year]"</li>
+                </ul>
+
+                <div class="input-section">
+                    <h4>💸 Data Collection</h4>
+                    <div class="form-group">
+                        <label>Current Cost Data:</label>
+                        <textarea id="pillar4-costs" placeholder="College tuition vs. trade school costs, student debt totals, ROI comparisons..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Trend Direction:</label>
+                        <textarea id="pillar4-trends" placeholder="Is the crisis accelerating? Stabilizing? What's the year-over-year change?"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NARRATIVE GENERATION -->
+            <div class="action-buttons">
+                <button class="btn" onclick="generateNarratives()">Generate Weekly Intelligence Brief</button>
+                <button class="btn btn-secondary" onclick="clearAll()">Clear All Fields</button>
+            </div>
+
+            <div id="output-section" style="display: none;">
+                <h2 style="color: #1e3c72; margin: 40px 0 20px 0; text-align: center;">📋 Your Weekly Intelligence Brief</h2>
+                
+                <div class="narrative-output">
+                    <h4>Hook #1: The Shocking Statistic</h4>
+                    <div class="output-content" id="hook1-output">Generate your brief to see output...</div>
+                </div>
+
+                <div class="narrative-output">
+                    <h4>Hook #2: The Career Death Match</h4>
+                    <div class="output-content" id="hook2-output">Generate your brief to see output...</div>
+                </div>
+
+                <div class="narrative-output">
+                    <h4>Hook #3: The Immediate Action Protocol</h4>
+                    <div class="output-content" id="hook3-output">Generate your brief to see output...</div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-success" onclick="copyBrief()">📋 Copy Full Brief</button>
+                    <button class="btn btn-secondary" onclick="window.print()">🖨️ Print Brief</button>
+                </div>
+            </div>
+
+            <!-- SOURCING GUIDELINES -->
+            <div class="guidelines">
+                <h4>📚 Sourcing & Credibility Protocols</h4>
+                <p><strong>Tier 1 Sources (Always prioritize):</strong></p>
+                <ul class="source-list">
+                    <li>Bureau of Labor Statistics (BLS) - Occupational Outlook Handbook</li>
+                    <li>National Student Clearinghouse Research Center</li>
+                    <li>Federal Reserve Economic Data (FRED)</li>
+                    <li>Department of Labor (DOL) official releases</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Citation Standard:</strong> "[Datapoint] per [Source], [Date]" with hyperlink when publishing.</p>
+            </div>
+
+            <!-- TONE GUIDELINES -->
+            <div class="guidelines">
+                <h4>🎯 Tone & Positioning Guidelines</h4>
+                <div class="tone-box">
+                    <div class="tone-item">
+                        <strong>❌ Prohibited:</strong>
+                        "This WILL happen"<br>
+                        "Everyone should..."<br>
+                        "It's obvious that..."
+                    </div>
+                    <div class="tone-item good">
+                        <strong>✅ Preferred:</strong>
+                        "Current data suggests..."<br>
+                        "Evidence indicates opportunities..."<br>
+                        "Emerging patterns point to..."
+                    </div>
+                </div>
+                <p style="margin-top: 15px;"><strong>Voice Characteristics:</strong> Measured Authority | Pattern Recognition | Contrarian Confidence | Accessible Precision</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Execute this protocol weekly. Compound your knowledge advantage. Own the paradigm shift.</strong></p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Dashboard for CHIP | Wealth Management for Main Street | askchip@1db.com</p>
+        </div>
+    </div>
+
+    <script>
+        function generateNarratives() {
+            // Collect all data
+            const data = {
+                pillar1: {
+                    data: document.getElementById('pillar1-data').value,
+                    insights: document.getElementById('pillar1-insights').value
+                },
+                pillar2: {
+                    data: document.getElementById('pillar2-data').value,
+                    insights: document.getElementById('pillar2-insights').value
+                },
+                pillar3: {
+                    displacement: document.getElementById('pillar3-displacement').value,
+                    demand: document.getElementById('pillar3-demand').value,
+                    contrasts: document.getElementById('pillar3-contrasts').value
+                },
+                pillar4: {
+                    costs: document.getElementById('pillar4-costs').value,
+                    trends: document.getElementById('pillar4-trends').value
+                }
+            };
+
+            // Check if at least some data is entered
+            const hasData = Object.values(data).some(pillar => 
+                Object.values(pillar).some(val => val.trim() !== '')
+            );
+
+            if (!hasData) {
+                alert('Please enter data in at least one pillar before generating narratives.');
+                return;
+            }
+
+            // Generate Hook 1: The Shocking Statistic
+            let hook1 = "HOOK #1: THE SHOCKING STATISTIC\n\n";
+            hook1 += "Based on your collected data:\n\n";
+            if (data.pillar1.data) {
+                hook1 += `Enrollment Intelligence: ${data.pillar1.data}\n\n`;
+            }
+            if (data.pillar1.insights) {
+                hook1 += `Trend Analysis: ${data.pillar1.insights}\n\n`;
+            }
+            hook1 += "SUGGESTED NARRATIVE STRUCTURE:\n";
+            hook1 += '"[Recent quarter] data from [source] indicates vocational enrollments [specific change], while four-year institutions saw [contrasting change]—representing [historical context]. This appears to correlate with [AI capability or policy announcement]."';
+
+            // Generate Hook 2: The Career Death Match
+            let hook2 = "HOOK #2: THE CAREER DEATH MATCH\n\n";
+            hook2 += "Consider the tale of two professionals:\n\n";
+            if (data.pillar3.displacement) {
+                hook2 += `📉 AT-RISK ROLE (White-Collar):\n${data.pillar3.displacement}\n\n`;
+            }
+            if (data.pillar3.demand) {
+                hook2 += `📈 ASCENDING ROLE (Skilled Trade):\n${data.pillar3.demand}\n\n`;
+            }
+            if (data.pillar3.contrasts) {
+                hook2 += `CONTRAST SUMMARY:\n${data.pillar3.contrasts}\n\n`;
+            }
+            hook2 += 'SUGGESTED CONCLUSION:\n"The credentialed \'knowledge worker\' path is being algorithmically disrupted while the \'dirty jobs\' Mike Rowe championed are becoming premium careers."';
+
+            // Generate Hook 3: The Immediate Action Protocol
+            let hook3 = "HOOK #3: THE IMMEDIATE ACTION PROTOCOL\n\n";
+            hook3 += "Here's what the data suggests you investigate this week:\n\n";
+            hook3 += "1. HIGH-VELOCITY TRADE:\n";
+            if (data.pillar3.demand) {
+                hook3 += `${data.pillar3.demand}\n\n`;
+            } else {
+                hook3 += "[Insert specific certification/trade showing X% growth with timeline and wage data]\n\n";
+            }
+            hook3 += "2. NEW FUNDING MECHANISM:\n";
+            if (data.pillar2.data) {
+                hook3 += `${data.pillar2.data}\n\n`;
+            } else {
+                hook3 += "[Insert specific program announced with benefits and application window]\n\n";
+            }
+            hook3 += "3. ECONOMIC CONTEXT:\n";
+            if (data.pillar4.costs) {
+                hook3 += `${data.pillar4.costs}\n\n`;
+            } else {
+                hook3 += "[Insert cost comparison and ROI arbitrage opportunity]\n\n";
+            }
+
+            // Display outputs
+            document.getElementById('hook1-output').textContent = hook1;
+            document.getElementById('hook2-output').textContent = hook2;
+            document.getElementById('hook3-output').textContent = hook3;
+            document.getElementById('output-section').style.display = 'block';
+
+            // Scroll to output
+            document.getElementById('output-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyBrief() {
+            const hook1 = document.getElementById('hook1-output').textContent;
+            const hook2 = document.getElementById('hook2-output').textContent;
+            const hook3 = document.getElementById('hook3-output').textContent;
+            
+            const fullBrief = `AI DISRUPTION & SKILLED TRADES INTELLIGENCE BRIEF
+Date: ${new Date().toLocaleDateString()}
+Generated by: CHIP | Wealth Management for Main Street
+
+${hook1}
+
+${'='.repeat(80)}
+
+${hook2}
+
+${'='.repeat(80)}
+
+${hook3}
+
+${'='.repeat(80)}
+
+Execute this protocol weekly. Compound your knowledge advantage. Own the paradigm shift.`;
+
+            navigator.clipboard.writeText(fullBrief).then(() => {
+                alert('✅ Full brief copied to clipboard!');
+            }).catch(err => {
+                alert('Unable to copy. Please select and copy manually.');
+            });
+        }
+
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all fields?')) {
+                document.getElementById('pillar1-data').value = '';
+                document.getElementById('pillar1-insights').value = '';
+                document.getElementById('pillar2-data').value = '';
+                document.getElementById('pillar2-insights').value = '';
+                document.getElementById('pillar3-displacement').value = '';
+                document.getElementById('pillar3-demand').value = '';
+                document.getElementById('pillar3-contrasts').value = '';
+                document.getElementById('pillar4-costs').value = '';
+                document.getElementById('pillar4-trends').value = '';
+                document.getElementById('output-section').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
